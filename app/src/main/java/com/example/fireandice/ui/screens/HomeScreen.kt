@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.fireandice.R
 
-/*
+
 @Composable
 fun HomeScreen(
     characterUiState: CharacterUiState,
@@ -27,8 +27,7 @@ fun HomeScreen(
     }
 }
 
- */
-
+/*
 @Composable
 fun HomeScreen(
     characterUiState: String,
@@ -36,6 +35,8 @@ fun HomeScreen(
 ) {
     ThronesListScreen(characterUiState, modifier)
 }
+
+ */
 
 
 /*
@@ -96,7 +97,7 @@ fun ThronesCard(character : com.example.fireandice.model.Character, modifier: Mo
 
  */
 @Composable
-fun ThronesListScreen(characterUiState: String, modifier: Modifier = Modifier) {
+fun ThronesListScreen(thrones: String, modifier: Modifier = Modifier) {
 /*
     LazyColumn(
         modifier = modifier
@@ -115,7 +116,7 @@ fun ThronesListScreen(characterUiState: String, modifier: Modifier = Modifier) {
        contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
-        Text(characterUiState)
+        Text(thrones)
     }
 }
 
