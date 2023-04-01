@@ -37,6 +37,7 @@ jobs:
       - name: Create debug release       
         uses: softprops/action-gh-release@v1
         with:
+          body_path: ${{ github.workspace }}-CHANGELOG.md
           prerelease: false  
           tag_name: debug 
           name: Debug-build 
