@@ -1,0 +1,47 @@
+name: Build and release 
+
+on:
+  push: 
+     branches: [main] 
+  workflow_dispatch:
+permissions: write-all
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.9.0
+        with:
+          java-version: "17"
+          distribution: "temurin"
+      
+      - name: Set execution flag for gradlew
+        run: chmod +x gradlew
+
+      - name: Build APK
+        run: bash ./gradlew assesmbleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with: 
+          name: apk 
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: download APK from build 
+        uses: actions/download-artifact@v3
+        with: 
+          name: apk
+
+      - name: Create debug release       
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: false  
+          tag_name: debug 
+          name: Debug-build 
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          files: |
+            app/build/outputs/apk/debug/app-debug.apk
+            
