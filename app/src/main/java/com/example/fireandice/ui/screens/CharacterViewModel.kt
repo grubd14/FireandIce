@@ -4,9 +4,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import com.example.fireandice.network.CharacterApi
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.fireandice.CharacterApplication
+import com.example.fireandice.data.CharacterRepository
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.io.IOException
 
 
@@ -17,7 +23,7 @@ sealed interface CharacterUiState {
     object Loading : CharacterUiState
 }
 
-class CharacterViewModel : ViewModel() {
+class CharacterViewModel(private val characterRepository: CharacterRepository) : ViewModel() {
     var characterUiState: CharacterUiState by mutableStateOf(CharacterUiState.Loading)
         private set
 
@@ -28,11 +34,25 @@ class CharacterViewModel : ViewModel() {
 
     private fun getThronesCharacters() {
         viewModelScope.launch {
-            try {
-                val listResult = CharacterApi.retrofitService.getCharacters()
-                characterUiState = CharacterUiState.Success("Success: ${listResult.size} Characters retrieved")
+            characterUiState = try {
+                val result = characterRepository.getThronesCharacter()[0]
+                CharacterUiState.Success(
+                    "First Character Image URL: ${result.imageUrl} /n First Character name URL: ${result.firstName}"
+                )
             } catch (e:IOException) {
                 CharacterUiState.Error
+            } catch (e: HttpException) {
+                CharacterUiState.Error
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as CharacterApplication)
+                val characterRepository = application.container.characterRepository
+                CharacterViewModel(characterRepository = characterRepository)
             }
         }
     }

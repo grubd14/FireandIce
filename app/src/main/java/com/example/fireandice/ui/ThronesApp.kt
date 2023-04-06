@@ -18,7 +18,9 @@ import com.example.fireandice.ui.screens.HomeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ThronesApp(modifier: Modifier = Modifier) {
+fun ThronesApp(
+    modifier: Modifier = Modifier,
+) {
     Scaffold (
         modifier = modifier.fillMaxSize(),
         topBar = { TopAppBar(title = {
@@ -30,7 +32,7 @@ fun ThronesApp(modifier: Modifier = Modifier) {
                 .padding(it),
             color = MaterialTheme.colorScheme.background
         ){
-            val characterViewModel : CharacterViewModel = viewModel()
+            val characterViewModel : CharacterViewModel = viewModel(factory = CharacterViewModel.Factory)
             HomeScreen(
                 characterUiState = characterViewModel.characterUiState,
             )
