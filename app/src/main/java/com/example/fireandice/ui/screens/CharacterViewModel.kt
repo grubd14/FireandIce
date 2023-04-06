@@ -7,19 +7,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fireandice.network.CharacterApi
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 
-/*
+
 sealed interface CharacterUiState {
     data class Success(val thrones: String) : CharacterUiState
     object Error : CharacterUiState
     object Loading : CharacterUiState
 }
 
-
- */
 class CharacterViewModel : ViewModel() {
-    var characterUiState: String by mutableStateOf("")
+    var characterUiState: CharacterUiState by mutableStateOf(CharacterUiState.Loading)
         private set
 
 
@@ -29,8 +28,12 @@ class CharacterViewModel : ViewModel() {
 
     private fun getThronesCharacters() {
         viewModelScope.launch {
-            val listResult = CharacterApi.retrofitService.getCharacters()
-            characterUiState = listResult
+            try {
+                val listResult = CharacterApi.retrofitService.getCharacters()
+                characterUiState = CharacterUiState.Success("Success: ${listResult.size} Characters retrieved")
+            } catch (e:IOException) {
+                CharacterUiState.Error
+            }
         }
     }
 }
