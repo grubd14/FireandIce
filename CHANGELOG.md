@@ -1,6 +1,10 @@
 # Changelog
 
 All the notable changes to this project will be documented in this file
+## [1.2] - 2023-04-09
+
+- Added much awaited UI changes.
+- Finally finished usable version of the app.
 
 ## [1.1] - 2023-04-06
 
