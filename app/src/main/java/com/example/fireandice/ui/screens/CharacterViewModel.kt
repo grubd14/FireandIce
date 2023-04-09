@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fireandice.CharacterApplication
 import com.example.fireandice.data.CharacterRepository
+import com.example.fireandice.model.Character
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -18,7 +19,7 @@ import java.io.IOException
 
 
 sealed interface CharacterUiState {
-    data class Success(val thrones: String) : CharacterUiState
+    data class Success(val thrones: List<Character>) : CharacterUiState
     object Error : CharacterUiState
     object Loading : CharacterUiState
 }
@@ -35,10 +36,7 @@ class CharacterViewModel(private val characterRepository: CharacterRepository) :
     private fun getThronesCharacters() {
         viewModelScope.launch {
             characterUiState = try {
-                val result = characterRepository.getThronesCharacter()[0]
-                CharacterUiState.Success(
-                    "First Character Image URL: ${result.imageUrl} /n First Character name URL: ${result.firstName}"
-                )
+                CharacterUiState.Success(characterRepository.getThronesCharacter())
             } catch (e:IOException) {
                 CharacterUiState.Error
             } catch (e: HttpException) {
