@@ -38,7 +38,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "app/build/outputs/apk/debug/*.apk"
-          tag: debug 
+          tag: debug
+          allowUpdates: true 
           draft: false 
           makeLatest: true 
           bodyFile: "CHANGELOG.md"
