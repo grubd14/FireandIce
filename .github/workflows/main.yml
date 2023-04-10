@@ -41,7 +41,7 @@ jobs:
           allowUpdates: false 
           tag: debug 
           draft: false 
-          makeLatest: false 
+          makeLatest: true 
           bodyFile: "CHANGELOG.md"
           name: Debug-Build      
           token: "${{ secrets.GITHUB_TOKEN }}"
