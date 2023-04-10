@@ -38,7 +38,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "app/build/outputs/apk/debug/*.apk"
-          allowUpdates: false 
           tag: debug 
           draft: false 
           makeLatest: true 
