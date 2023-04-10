@@ -43,6 +43,6 @@ jobs:
           draft: false 
           makeLatest: true 
           bodyFile: "CHANGELOG.md"
-          name: "Debug-Build"  
+          name: Build 
           token: "${{ secrets.GITHUB_TOKEN }}"
 
