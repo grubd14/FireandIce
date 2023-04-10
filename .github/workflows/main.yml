@@ -35,13 +35,14 @@ jobs:
           name: apk
 
       - name: Create debug release       
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          body_path: CHANGELOG.md
-          prerelease: false  
-          tag_name: debug 
-          name: Debug-build 
+          artifacts: "app/build/outputs/apk/debug/*.apk"
+          allowUpdates: false 
+          tag: debug 
+          draft: false 
+          makeLatest: false 
+          bodyFile: "CHANGELOG.md"
+          name: Debug-Build      
           token: "${{ secrets.GITHUB_TOKEN }}"
-          files: |
-            app/build/outputs/apk/debug/app-debug.apk
-            
+
